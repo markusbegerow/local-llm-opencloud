@@ -2,6 +2,8 @@
 
 A powerful OpenCloud web app that integrates local Large Language Models (LLMs) directly into your OpenCloud instance for AI-powered assistance.
 
+<img src="https://github.com/user-attachments/assets/0686df6b-bfcb-4459-8ac5-6e15e551e1bc" />
+
 ## Features
 
 ### Privacy-First AI Integration
