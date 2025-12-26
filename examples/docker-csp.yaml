@@ -1,0 +1,38 @@
+# CSP Configuration Example for Docker Deployments
+#
+# This example shows how to configure Content Security Policy for OpenCloud
+# running in Docker to allow connections to LLM endpoints.
+#
+# DOCKER SETUP:
+# 1. Save this file to your OpenCloud config directory (e.g., $HOME/opencloud/opencloud-config/csp.yaml)
+# 2. Mount it when starting OpenCloud Docker container
+# 3. Set the PROXY_CSP_CONFIG_FILE_LOCATION environment variable
+#
+# Example Docker run command:
+# docker run --name opencloud -d \
+#   -p 9200:9200 \
+#   -v $HOME/opencloud/opencloud-config:/etc/opencloud \
+#   -v $HOME/opencloud/opencloud-data:/var/lib/opencloud \
+#   -v $HOME/opencloud/opencloud-apps:/var/lib/opencloud/web/apps \
+#   -v $HOME/opencloud/opencloud-apps-web:/var/lib/opencloud/web/assets/apps \
+#   -e OC_URL=https://localhost:9200 \
+#   -e PROXY_CSP_CONFIG_FILE_LOCATION=/etc/opencloud/csp.yaml \
+#   opencloudeu/opencloud-rolling:latest
+
+directives:
+  connect-src:
+    # Allow same-origin connections (required)
+    - '''self'''
+
+    # For development/testing: Allow all origins
+    - '*'
+
+    # For production: Uncomment and customize specific endpoints
+    # Local LLM servers (if running on host machine):
+    # - 'http://host.docker.internal:11434'  # Ollama (access host from Docker)
+    # - 'http://host.docker.internal:1234'   # LM Studio (access host from Docker)
+
+    # Remote LLM endpoints:
+    # - 'https://api.openai.com'
+    # - 'https://api.together.xyz'
+    # - 'https://your-llm-server.com'

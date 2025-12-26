@@ -1,0 +1,26 @@
+# Example CSP (Content Security Policy) configuration for OpenCloud
+# This file allows the browser to connect to LLM endpoints
+#
+# USAGE:
+# 1. Copy this file and name it appropriately for your deployment
+# 2. Modify the connect-src directives to match your LLM endpoints
+# 3. Configure OpenCloud to use this CSP file (see README.md)
+
+directives:
+  connect-src:
+    # Allow connections to same origin (required)
+    - '''self'''
+
+    # Allow all origins (recommended for development and testing)
+    # SECURITY WARNING: This allows connections to ANY endpoint
+    # For production, consider restricting to specific domains (see below)
+    - '*'
+
+    # PRODUCTION ALTERNATIVE: Restrict to specific LLM endpoints
+    # Uncomment and customize the lines below for production use:
+    # - 'http://localhost:11434'          # Ollama
+    # - 'http://localhost:1234'           # LM Studio
+    # - 'https://api.openai.com'          # OpenAI
+    # - 'https://api.together.xyz'        # Together.ai
+    # - 'https://your-llm-server.com'     # Your custom LLM server
+    # - 'https://*.openai.azure.com'      # Azure OpenAI (wildcard)

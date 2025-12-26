@@ -1,0 +1,52 @@
+# CSP Configuration Example for Bare Metal Deployments
+#
+# This example shows how to configure Content Security Policy for OpenCloud
+# running on bare metal (direct installation) to allow connections to LLM endpoints.
+#
+# BARE METAL SETUP:
+# The exact configuration method depends on your OpenCloud installation method.
+# Common approaches:
+#
+# 1. System-wide configuration:
+#    - Place this file in /etc/opencloud/csp.yaml
+#    - Configure OpenCloud to read it (check your OpenCloud config file)
+#
+# 2. Apache/Nginx reverse proxy:
+#    - Configure CSP headers in your web server configuration
+#    - Example for Apache:
+#      Header set Content-Security-Policy "connect-src 'self' http://localhost:11434 https://api.openai.com"
+#    - Example for Nginx:
+#      add_header Content-Security-Policy "connect-src 'self' http://localhost:11434 https://api.openai.com";
+#
+# 3. OpenCloud configuration file:
+#    - Add CSP settings to your OpenCloud config.php or equivalent
+#    - Refer to OpenCloud documentation for your specific version
+#
+# For detailed instructions, please consult:
+# - OpenCloud CSP documentation: https://docs.opencloud.eu
+# - Your web server's documentation for CSP header configuration
+
+directives:
+  connect-src:
+    # Allow same-origin connections (required)
+    - '''self'''
+
+    # For development/testing: Allow all origins
+    - '*'
+
+    # For production: Uncomment and customize specific endpoints
+    # Local LLM servers (running on same machine):
+    # - 'http://localhost:11434'          # Ollama
+    # - 'http://127.0.0.1:11434'          # Ollama (alternative)
+    # - 'http://localhost:1234'           # LM Studio
+    # - 'http://127.0.0.1:1234'           # LM Studio (alternative)
+
+    # LLM servers on local network:
+    # - 'http://192.168.1.100:11434'     # Ollama on network machine
+    # - 'http://llm-server.local:11434'  # Named machine on LAN
+
+    # Remote LLM endpoints:
+    # - 'https://api.openai.com'         # OpenAI
+    # - 'https://api.together.xyz'       # Together.ai
+    # - 'https://*.openai.azure.com'     # Azure OpenAI (wildcard)
+    # - 'https://your-llm-server.com'    # Your custom server
